@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rock Paper Scissors</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        text-align: center;
+        padding: 30px;
+        background: linear-gradient(135deg, #8bc6ec 0%, #9599e2 100%);
+        min-height: 100vh;
+      }
+      .container {
+        background: white;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      .choices {
+        margin: 30px 0;
+      }
+      .choice-btn {
+        font-size: 50px;
+        background: none;
+        border: 3px solid #ddd;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        margin: 0 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .choice-btn:hover {
+        border-color: #9599e2;
+        transform: scale(1.1);
+        background: #f8f9fa;
+      }
+      #result {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px 0;
+        min-height: 40px;
+      }
+      #score {
+        font-size: 20px;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        display: inline-block;
+      }
+      .win {
+        color: #4caf50;
+      }
+      .lose {
+        color: #f44336;
+      }
+      .tie {
+        color: #ff9800;
+      }
+      .reset-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        font-size: 16px;
+        background: #9599e2;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Rock Paper Scissors</h1>
+      <p>Choose your weapon!</p>
+      <div class="choices">
+        <button class="choice-btn" onclick="playGame('✊')">✊</button>
+        <button class="choice-btn" onclick="playGame('✋')">✋</button>
+        <button class="choice-btn" onclick="playGame('✌️')">✌️</button>
+      </div>
+      <div id="result"></div>
+      <div id="score">Player: 0 | Computer: 0 | Ties: 0</div>
+      <button class="reset-btn" onclick="resetScore()">Reset Score</button>
+    </div>
+    <script>
+      let scores = { player: 0, computer: 0, ties: 0 };
+      const choices = ["✊", "✋", "✌️"];
+      function playGame(playerChoice) {
+        // Computer's random choice
+        const computerChoice = choices[Math.floor(Math.random() * 3)];
+        // Determine winner
+        let result, resultClass;
+        if (playerChoice === computerChoice) {
+          result = "It's a tie!";
+          resultClass = "tie";
+          scores.ties++;
+        } else if (
+          (playerChoice === "✊" && computerChoice === "✌️") ||
+          (playerChoice === "✋" && computerChoice === "✊") ||
+          (playerChoice === "✌️" && computerChoice === "✋")
+        ) {
+          result = `You win! ${playerChoice} beats ${computerChoice}`;
+          resultClass = "win";
+          scores.player++;
+        } else {
+          result = `You lose! ${computerChoice} beats ${playerChoice}`;
+          resultClass = "lose";
+          scores.computer++;
+        }
+        // Update UI
+        document.getElementById(
+          "result"
+        ).innerHTML = `You: ${playerChoice} vs Computer: ${computerChoice}<br><span class="${resultClass}">${result}</span>`;
+        document.getElementById(
+          "score"
+        ).innerText = `Player: ${scores.player} | Computer: ${scores.computer} | Ties: ${scores.ties}`;
+      }
+      function resetScore() {
+        scores = { player: 0, computer: 0, ties: 0 };
+        document.getElementById("result").innerText = "";
+        document.getElementById("score").innerText =
+          "Player: 0 | Computer: 0 | Ties: 0";
+      }
+    </script>
+  </body>
+</html>
